@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ListView
 import butterknife.bindView
+import io.realm.Realm
 import io.realm.RealmResults
 
 class MainActivity : AppCompatActivity() {
-    private val items: RealmResults<Item> =
-            RealmSampleApplication.instance.inMemoryRealm.where(Item::class.java).findAll()
+    private val realm = Realm.getDefaultInstance()
+    private val items: RealmResults<Item> = realm.where(Item::class.java).findAll()
     private val listView: ListView by bindView(R.id.list_view)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +24,11 @@ class MainActivity : AppCompatActivity() {
         // 結果が取得できたら Realm に保存する
         // 今回は説明を簡単にする為 API 経由で情報の取得が完了したとして、データをセットします。
         this.saveRealmData()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        this.realm.close()
     }
 
     private fun setUpView() {

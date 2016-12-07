@@ -5,13 +5,15 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.TextView
 import butterknife.bindView
+import io.realm.Realm
 
 class ItemActivity : AppCompatActivity() {
-    val contentTextView: TextView by bindView(R.id.content)
-    val likesCountTextView: TextView by bindView(R.id.likes_count)
-    val likeButton: Button by bindView(R.id.like)
-    val deleteButton: Button by bindView(R.id.delete)
-    lateinit var item: Item
+    private val realm = Realm.getDefaultInstance()
+    private val contentTextView: TextView by bindView(R.id.content)
+    private val likesCountTextView: TextView by bindView(R.id.likes_count)
+    private val likeButton: Button by bindView(R.id.like)
+    private val deleteButton: Button by bindView(R.id.delete)
+    private lateinit var item: Item
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,7 @@ class ItemActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         this.item.removeChangeListeners()
+        this.realm.close()
     }
 
     private fun setUpViews(item: Item) {

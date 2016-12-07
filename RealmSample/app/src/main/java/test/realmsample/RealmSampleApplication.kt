@@ -29,7 +29,7 @@ class RealmSampleApplication : Application() {
                 .name("inMemory.realm")
                 .inMemory()
                 .build()
-        Realm.setDefaultConfiguration(config)
         this.inMemoryRealm = Realm.getInstance(config)
+        Realm.setDefaultConfiguration(config)
     }
 }
