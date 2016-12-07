@@ -47,8 +47,7 @@ class MainActivity : AppCompatActivity() {
         val carpenter = Item(id = 2, name = "大工", content = "自分の家を建てたい", likesCount = 4)
         val programer = Item(id = 3, name = "プログラマー", content = "キーボードが好き", likesCount = 9999)
 
-        val realm = RealmSampleApplication.instance.inMemoryRealm
-        realm.executeTransaction {
+        this.realm.executeTransaction { realm ->
             realm.copyToRealmOrUpdate(pilot)
             realm.copyToRealmOrUpdate(carpenter)
             realm.copyToRealmOrUpdate(programer)

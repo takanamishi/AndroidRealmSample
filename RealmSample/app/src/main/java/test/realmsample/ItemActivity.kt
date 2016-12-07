@@ -20,8 +20,7 @@ class ItemActivity : AppCompatActivity() {
         setContentView(R.layout.activity_item)
 
         val itemId = this.intent.getIntExtra("itemId", 0)
-        val realm = RealmSampleApplication.instance.inMemoryRealm
-        this.item = realm.where(Item::class.java).equalTo("id", itemId).findFirst() ?: return
+        this.item = this.realm.where(Item::class.java).equalTo("id", itemId).findFirst() ?: return
 
         item.addChangeListener<Item> {
             this.likesCountTextView.text = item.likesCount.toString()
@@ -30,13 +29,13 @@ class ItemActivity : AppCompatActivity() {
         this.setUpViews(item = item)
 
         this.likeButton.setOnClickListener {
-            realm.executeTransaction {
+            this.realm.executeTransaction {
                 item.likesCount += 1
             }
         }
 
         this.deleteButton.setOnClickListener {
-            realm.executeTransaction {
+            this.realm.executeTransaction {
                 item.deleteFromRealm()
             }
         }
